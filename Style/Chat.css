@@ -1,0 +1,144 @@
+/* =========================================================
+   Chat.css — DM conversation pane
+   ========================================================= */
+
+.page:has(.ChatBody) {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* ---------- Partner header ---------- */
+.PartnerInfo {
+  display: flex; align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  background: var(--surface-1);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.PartnerInfo .PersonalPhoto {
+  position: relative;
+  width: 36px; height: 36px;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  background: var(--surface-2);
+  border: 1px solid var(--color-border);
+  cursor: default;
+}
+.PartnerInfo .PersonalPhoto:hover { border-color: var(--color-border); }
+.PartnerInfo .PersonalPhoto img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+}
+
+.PartnerInfo .Username {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text);
+  margin: 0;
+  letter-spacing: -0.012em;
+}
+
+/* ---------- Message list ---------- */
+.ChatBody {
+  flex: 1;
+  display: flex; flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  overflow-y: auto;
+  min-height: 400px;
+  background: var(--surface-0);
+}
+
+.ChatBody:empty::before {
+  content: "No messages yet";
+  margin: auto;
+  color: var(--color-text-subtle);
+  font-size: var(--fs-sm);
+}
+
+.messages {
+  display: flex; flex-direction: column;
+  gap: 2px;
+  max-width: 70%;
+  animation: bubbleIn 200ms ease-out;
+}
+
+@keyframes bubbleIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.messages.sender   { align-self: flex-end;   align-items: flex-end; }
+.messages.receiver { align-self: flex-start; align-items: flex-start; }
+
+.messages > div:first-child {
+  font-size: 11px;
+  font-weight: var(--fw-medium);
+  color: var(--color-text-subtle);
+  padding: 0 var(--space-3);
+}
+
+.message-body {
+  padding: 8px 12px;
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+  word-break: break-word;
+  border-radius: var(--radius-lg);
+}
+
+.messages.sender .message-body {
+  background: var(--accent);
+  color: #fff;
+  border-bottom-right-radius: var(--radius-sm);
+}
+
+.messages.receiver .message-body {
+  background: var(--surface-1);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-bottom-left-radius: var(--radius-sm);
+}
+
+.message-time {
+  font-size: 11px;
+  color: var(--color-text-subtle);
+  padding: 0 var(--space-3);
+  margin-top: 2px;
+}
+
+/* ---------- Composer ---------- */
+.page > .Message,
+.ChatBody + .Message {
+  display: flex; align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  background: var(--surface-1);
+  border-top: 1px solid var(--color-border);
+  position: sticky;
+  bottom: 0;
+}
+
+.page > .Message .MsgInput {
+  background: var(--surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-fast),
+              box-shadow var(--transition-fast);
+}
+.page > .Message .MsgInput:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+@media (max-width: 600px) {
+  .PartnerInfo { padding: var(--space-3) var(--space-4); }
+  .ChatBody { padding: var(--space-3); }
+  .messages { max-width: 86%; }
+  .page > .Message { padding: var(--space-3) var(--space-4); }
+}
