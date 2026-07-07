@@ -3,6 +3,20 @@ import * as typing from "./typing.js";
 
 let socket;
 
+// Pagination state for the currently open conversation.
+let isLoadingHistory = false; // a load_messages request is in flight
+let reachedHistoryStart = false; // no older messages remain to fetch
+let lastHistoryCount = 0; // number of messages returned by the last load
+
+// Reset pagination whenever a fresh conversation is opened so we start from
+// the last 10 messages again and re-enable "load older" scrolling.
+export function resetChatPagination() {
+  isLoadingHistory = false;
+  reachedHistoryStart = false;
+  lastHistoryCount = 0;
+  sessionStorage.setItem("scroll", "0");
+}
+
 export function connectSocket() {
   if (
     socket &&
@@ -119,6 +133,16 @@ function paintMessageHistory(messages) {
     return;
   }
 
+  const count = messages ? messages.length : 0;
+
+  // The backend returns the newest `scroll + 10` messages. If a load returned
+  // no more than the previous one, we've reached the start of the history and
+  // must stop asking for more (prevents endless useless reloads).
+  if (lastHistoryCount !== 0 && count <= lastHistoryCount) {
+    reachedHistoryStart = true;
+  }
+  lastHistoryCount = count;
+
   const previousHeight = scrollPane.scrollHeight;
   const savedScroll = Number.parseInt(
     sessionStorage.getItem("scroll") || "0",
@@ -131,10 +155,15 @@ function paintMessageHistory(messages) {
     .forEach((message) => scrollPane.appendChild(buildMessageNode(message)));
 
   if (savedScroll === 0) {
+    // Initial load: show the last 10 messages, pinned to the bottom.
     scrollPane.scrollTop = scrollPane.scrollHeight;
   } else {
+    // Older messages were prepended: keep the previously-visible message in
+    // place by offsetting the scroll by the newly added height.
     scrollPane.scrollTop = scrollPane.scrollHeight - previousHeight;
   }
+
+  isLoadingHistory = false;
 }
 
 function appendIncomingMessage(message) {
@@ -208,20 +237,37 @@ export function bindChatComposer() {
     return;
   }
 
-  const loadOlderMessages = throttle(() => {
+  // A freshly built composer means a freshly opened conversation.
+  resetChatPagination();
+
+  // Distance (px) from the top at which we start fetching older messages.
+  const LOAD_TRIGGER_OFFSET = 60;
+
+  const loadOlderMessages = () => {
+    // Skip if a request is already running or there is nothing older to load.
+    if (isLoadingHistory || reachedHistoryStart) {
+      return;
+    }
+    isLoadingHistory = true;
     const offset =
       Number.parseInt(sessionStorage.getItem("scroll") || "0", 10) + 10;
     sessionStorage.setItem("scroll", String(offset));
     requestMessageHistory();
-  }, 1000);
+  };
+
+  // Throttle the scroll listener so we react to at most one event per window
+  // instead of the dozens the browser fires while scrolling. The in-flight and
+  // reached-start guards above stop it from spamming duplicate loads.
+  const onScroll = throttle(() => {
+    if (scrollPane.scrollTop <= LOAD_TRIGGER_OFFSET) {
+      loadOlderMessages();
+    }
+  }, 250);
+
   const startTyping = throttle(() => typing.sendTypingStart(socket), 1500);
   const stopTyping = throttle(() => typing.sendTypingStop(socket), 1500);
 
-  scrollPane.addEventListener("scroll", (event) => {
-    if (event.target.scrollTop === 0) {
-      loadOlderMessages();
-    }
-  });
+  scrollPane.addEventListener("scroll", onScroll);
 
   const dispatchMessage = () => {
     const message = inputEl.value.trim();

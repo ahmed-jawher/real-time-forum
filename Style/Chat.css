@@ -7,6 +7,13 @@
   flex-direction: column;
   padding: 0;
   overflow: hidden;
+  /* Bound the height so .ChatBody (flex:1) becomes the scroll container itself
+     instead of letting the whole page grow and the window scroll. Without this
+     the scroll event on .ChatBody never fires and "load older messages" breaks. */
+  height: calc(100vh - var(--nav-h) - (var(--space-5) * 2));
+  min-height: 0;
+  position: sticky;
+  top: calc(var(--nav-h) + var(--space-5));
 }
 
 /* ---------- Partner header ---------- */
@@ -51,7 +58,9 @@
   gap: var(--space-2);
   padding: var(--space-5);
   overflow-y: auto;
-  min-height: 400px;
+  /* min-height:0 lets this flex child shrink to the bounded .page height so it
+     scrolls internally (the scroll event that drives pagination fires here). */
+  min-height: 0;
   background: var(--surface-0);
 }
 
