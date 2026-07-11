@@ -80,12 +80,6 @@ type LoadMessagesContent struct {
 	Sender   int `json:"sender"`
 	Scroll   int `json:"scroll"`
 }
-type TypingEvent struct {
-	Receiver int    `json:"receiver"`
-	Sender   int    `json:"sender"`
-	Type     string `json:"type"`
-}
-
 type Com struct {
 	Id       int       `json:"Id"`
 	Text     string    `json:"Text"`

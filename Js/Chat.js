@@ -1,4 +1,5 @@
 import * as socket from "./WS.js";
+import * as app from "./app.js";
 
 export function buildChatMarkup() {
   const partnerAvatar = sessionStorage.getItem("partner-Img");
@@ -8,6 +9,7 @@ export function buildChatMarkup() {
     <div class="PartnerInfo">
       <div class="PersonalPhoto">
         <img id="partnerProfileImg" src="../ProfileImages/${partnerAvatar}" alt="" />
+        <div class="Status" id="partnerStatus"></div>
       </div>
       <p class="Username" id="partnerUsername">${partnerName}</p>
     </div>
@@ -33,6 +35,7 @@ export async function showChatView() {
     if (pageEl) {
       pageEl.innerHTML = style + buildChatMarkup();
       socket.bindChatComposer();
+      app.syncChatHeaderStatus();
       return;
     }
 

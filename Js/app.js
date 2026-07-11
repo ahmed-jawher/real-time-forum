@@ -66,11 +66,28 @@ export async function refreshConversationList(users) {
     if (listEl) {
       listEl.innerHTML = markup;
       bindConversationItems();
+      syncChatHeaderStatus();
       return;
     }
 
     await new Promise((resolve) => setTimeout(resolve, 100));
   }
+}
+
+// Mirror the open partner's online state (kept up to date in the DM list) onto
+// the status dot in the chat header, so it is visible while inside a chat too.
+export function syncChatHeaderStatus() {
+  const partnerId = sessionStorage.getItem("User");
+  const headerStatus = document.getElementById("partnerStatus");
+  if (!headerStatus || !partnerId) {
+    return;
+  }
+  const sidebarStatus = document.querySelector(
+    `.partner[id="${partnerId}"] .Status`,
+  );
+  const online =
+    !!sidebarStatus && sidebarStatus.style.backgroundColor === "green";
+  headerStatus.style.backgroundColor = online ? "green" : "";
 }
 
 function clearUnreadBadge(senderId, receiverId) {

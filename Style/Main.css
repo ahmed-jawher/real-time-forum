@@ -215,18 +215,6 @@
 
 .Notifications-container p { margin: 0; }
 
-.Typing-container {
-  position: absolute;
-  left: 56px; bottom: 4px;
-  font-size: var(--fs-xs);
-  font-style: italic;
-  color: var(--accent);
-  letter-spacing: 0.04em;
-}
-.Typing-container p { margin: 0; }
-.Typing-container:empty,
-.Typing-container p:empty { display: none; }
-
 /* ---------- Main page ---------- */
 .page {
   background: var(--surface-1);

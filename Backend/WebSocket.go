@@ -162,11 +162,6 @@ func WsConn(w http.ResponseWriter, r *http.Request) {
 				log.Printf("load_messages failed for user %d: %v", userID, err)
 				return
 			}
-		case "typing":
-			if err := handleTyping(userID, request.Content); err != nil {
-				log.Printf("typing event failed for user %d: %v", userID, err)
-				return
-			}
 		}
 	}
 }
@@ -241,31 +236,6 @@ func handleLoadMessages(client *socketClient, userID int, raw interface{}) error
 		Type:  "load_messages",
 		RInfo: receiverInfo,
 		Data:  messages,
-	})
-}
-
-func handleTyping(userID int, raw interface{}) error {
-	var content TypingEvent
-	if err := decodeWSContent(raw, &content); err != nil {
-		return err
-	}
-	content.Sender = userID
-
-	recipient := getUserSocket(content.Receiver)
-	if recipient == nil {
-		return nil
-	}
-	return recipient.writeJSON(WSRequest{
-		Type: "typing",
-		Content: struct {
-			Receiver int    `json:"rceiver"`
-			Sender   int    `json:"sender"`
-			Type     string `json:"type"`
-		}{
-			Receiver: content.Receiver,
-			Sender:   content.Sender,
-			Type:     content.Type,
-		},
 	})
 }
 

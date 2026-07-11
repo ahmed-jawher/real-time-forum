@@ -464,9 +464,6 @@ export function conversationItem(user) {
                        <p class="ChatText">${user.LastMessage}</p>
                     </div>
                     ${Notifications}
-                     <div class="Typing-container" id="Typing-container${user.UserId}">
-                        <p></p>
-                    </div>
                   </div>`
   return template
 }

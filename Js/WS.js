@@ -1,5 +1,4 @@
 import * as app from "./app.js";
-import * as typing from "./typing.js";
 
 let socket;
 
@@ -64,8 +63,6 @@ export function bindSocketMessages() {
         paintMessageHistory(frame.Data);
       } else if (frame.type === "send_message") {
         appendIncomingMessage(frame.Content);
-      } else if (frame.type === "typing") {
-        typing.renderTypingIndicator(frame.Content);
       } else if (frame.type === "activeUsers") {
         app.refreshConversationList(frame.Content);
       }
@@ -264,9 +261,6 @@ export function bindChatComposer() {
     }
   }, 250);
 
-  const startTyping = throttle(() => typing.sendTypingStart(socket), 1500);
-  const stopTyping = throttle(() => typing.sendTypingStop(socket), 1500);
-
   scrollPane.addEventListener("scroll", onScroll);
 
   const dispatchMessage = () => {
@@ -282,7 +276,6 @@ export function bindChatComposer() {
     }
 
     inputEl.value = "";
-    typing.sendTypingStop(socket);
     socket.send(
       JSON.stringify({
         type: "send_message",
@@ -300,13 +293,6 @@ export function bindChatComposer() {
     if (event.key === "Enter") {
       event.preventDefault();
       dispatchMessage();
-    } else if (socket?.readyState === WebSocket.OPEN) {
-      startTyping();
-    }
-  });
-  inputEl.addEventListener("input", () => {
-    if (!inputEl.value.trim() && socket?.readyState === WebSocket.OPEN) {
-      stopTyping();
     }
   });
 }

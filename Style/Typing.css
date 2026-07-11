@@ -1,0 +1,95 @@
+/* ===========================================================================
+   Typing-in-progress indicator.
+   Self-contained styles for the "<name> is typing…" bar and its smooth,
+   CSS-driven dot animation (no JS timers => no jank).
+   =========================================================================== */
+
+.typing-indicator {
+  display: none;
+  align-items: center;
+  padding: 6px 16px;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--accent, #7c9cff);
+  letter-spacing: 0.02em;
+  /* Fade/slide in gently so it draws attention without being abrupt. */
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.typing-indicator.is-visible {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.typing-name {
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* Three dots rendered from a single element (one dot + two box-shadows) that
+   pulse together in a smooth loop. */
+.typing-dots {
+  position: relative;
+  display: inline-block;
+  width: 22px;
+  height: 8px;
+  margin-left: 8px;
+}
+
+.typing-dots::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 8px 0 0 currentColor, 16px 0 0 currentColor;
+  transform: translateY(-50%);
+  animation: typing-bounce 1.2s infinite ease-in-out;
+}
+
+@keyframes typing-bounce {
+  0%,
+  80%,
+  100% {
+    opacity: 0.3;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+/* --- typing line inside a DM-list row -------------------------------------
+   Visible even when the conversation is not open. While a partner is typing we
+   swap their last-message preview for an animated "typing…" line. */
+.partner .partner-typing {
+  display: none;
+  margin: 0;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--accent, #7c9cff);
+  animation: typing-blink 1.4s infinite ease-in-out;
+}
+
+.partner.is-typing .ChatText {
+  display: none;
+}
+
+.partner.is-typing .partner-typing {
+  display: block;
+}
+
+@keyframes typing-blink {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
