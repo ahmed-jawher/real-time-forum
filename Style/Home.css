@@ -1,0 +1,494 @@
+/* =========================================================
+   Home.css — Editorial / magazine-style feed
+   ========================================================= */
+
+.HomeMain {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+/* ---------- Topics rail (category filter) ---------- */
+.HomeMain > .Category {
+  position: relative;
+  padding: 0 0 var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.HomeMain > .Category::before {
+  content: "Topics";
+  display: block;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--color-text-subtle);
+  margin-bottom: var(--space-3);
+}
+
+.HomeMain > .Category::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -1px;
+  width: 64px; height: 2px;
+  background: var(--accent);
+}
+
+.HomeMain > .Category #Filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ---------- Feed list ---------- */
+.Posts,
+.SinglePostContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-7);
+}
+
+/* ---------- Post card (article) ---------- */
+.post {
+  background: var(--surface-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color var(--transition-base),
+              transform var(--transition-base),
+              box-shadow var(--transition-base);
+  box-shadow: var(--shadow-sm);
+}
+
+.post:hover {
+  border-color: var(--color-border-strong);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Flatten so we can re-order: cover image → byline → title → body → meta → actions */
+.PostContent {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  gap: 0;
+}
+
+.PostContentContainer { display: contents; }
+
+/* Cover image — full-bleed top */
+.PostImageContainer {
+  order: -1;
+  margin: 0;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--surface-2);
+  overflow: hidden;
+}
+.PostImage {
+  width: 100%;
+  max-height: 380px;
+  object-fit: cover;
+  display: block;
+  transition: transform 600ms cubic-bezier(.4,0,.2,1);
+}
+.post:hover .PostImage { transform: scale(1.02); }
+
+/* Byline row */
+.PostSenderContainer {
+  order: 0;
+  display: flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-5) var(--space-7) var(--space-3);
+}
+.SenderImageContainer {
+  width: 40px; height: 40px;
+  flex-shrink: 0;
+}
+.SenderImage {
+  width: 100%; height: 100%;
+  border-radius: var(--radius-pill);
+  object-fit: cover;
+  background: var(--surface-2);
+  border: 1px solid var(--color-border);
+}
+.CaptionContainer {
+  display: flex; flex-direction: row; align-items: center;
+  flex-wrap: wrap;
+  gap: 0 8px;
+  min-width: 0;
+}
+.ImageUserName p {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+  letter-spacing: 0.005em;
+}
+.ImageUserName::after {
+  content: "·";
+  margin: 0 6px;
+  color: var(--color-text-subtle);
+}
+.ImageUserName {
+  display: inline-flex; align-items: center;
+}
+.ImageTime p {
+  font-size: var(--fs-xs);
+  color: var(--color-text-subtle);
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Big editorial title */
+.PostContentContainer > p:first-child {
+  order: 1;
+  margin: 0;
+  padding: 0 var(--space-7);
+  font-family: var(--font-display) !important;
+  font-size: clamp(22px, 2.4vw, 30px) !important;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--color-text-strong);
+  letter-spacing: -0.022em;
+}
+
+/* Body */
+.PostContentContainer > p:nth-of-type(2) {
+  order: 2;
+  margin: 0;
+  padding: var(--space-3) var(--space-7) 0;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--color-text-muted);
+  word-break: break-word;
+}
+
+/* Section divider with label between body and actions */
+.PostBtns {
+  order: 3;
+  position: relative;
+  display: flex; align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-7);
+  margin-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+}
+
+.PostBtns::before {
+  content: "Reactions";
+  position: absolute;
+  top: -8px;
+  left: var(--space-7);
+  padding: 0 8px;
+  background: var(--surface-1);
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--color-text-subtle);
+}
+
+/* ---------- Reactions ---------- */
+.LikeButtons {
+  display: flex; align-items: center; gap: var(--space-2);
+}
+
+.LikeContainer,
+.DislikeContainer {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  border: 1px solid var(--color-border);
+  transition: background var(--transition-fast),
+              color var(--transition-fast),
+              border-color var(--transition-fast),
+              transform var(--transition-fast);
+  color: var(--color-text-muted);
+}
+.LikeContainer:hover {
+  background: var(--accent-soft);
+  color: var(--accent-hover);
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+.DislikeContainer:hover {
+  background: var(--surface-3);
+  color: var(--color-text);
+  border-color: var(--color-border-strong);
+  transform: translateY(-1px);
+}
+
+.LikeContainer p, .DislikeContainer p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  min-width: 8px; text-align: center;
+}
+
+.LikeContainer .container,
+.DislikeContainer .container {
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  width: 22px; height: 22px;
+}
+
+.LikeContainer input[type="checkbox"],
+.DislikeContainer input[type="checkbox"],
+.CommentLikeContainer input[type="checkbox"],
+.CommentDislikeContainer input[type="checkbox"] {
+  position: absolute; opacity: 0;
+  width: 100%; height: 100%;
+  cursor: pointer; margin: 0;
+}
+
+.LikeSVG {
+  width: 16px; height: 16px;
+  transition: transform var(--transition-base), color var(--transition-fast);
+}
+.LikeSVG path { fill: currentColor !important; }
+
+.LikeSVG.LikeSVGClicked {
+  color: var(--accent);
+  transform: scale(1.12);
+}
+.LikeSVG.DislikeSVGClicked {
+  color: var(--color-text);
+  transform: scale(1.08);
+}
+.LikeContainer .container:active .LikeSVG,
+.DislikeContainer .container:active .LikeSVG { transform: scale(0.9); }
+
+/* Delete + edit */
+.CommentDeleteBtnsContainer {
+  display: flex; align-items: center; gap: 8px;
+}
+
+.Btn.Delete {
+  display: none;
+  align-items: center; justify-content: center;
+  gap: 6px;
+  padding: 0 12px;
+  height: 32px;
+  background: transparent;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+.Btn.Delete:hover {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+  border-color: rgba(244,63,94,0.35);
+}
+.Btn.Delete .sign svg { width: 14px; height: 14px; }
+.Btn.Delete .sign svg path { fill: currentColor; }
+
+.edit-button {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px;
+  background: transparent;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+.edit-button:hover {
+  background: var(--surface-3);
+  color: var(--color-text);
+  border-color: var(--color-border-strong);
+}
+.edit-svgIcon { width: 14px; height: 14px; }
+.edit-svgIcon path { fill: currentColor; }
+
+/* =========================================================
+   Comments — tailed bubbles, zebra rows
+   ========================================================= */
+.CommentsContainer {
+  margin-top: var(--space-3);
+  padding: var(--space-7);
+  background: var(--surface-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  display: flex; flex-direction: column;
+  gap: var(--space-5);
+  position: relative;
+}
+
+.CommentHeader {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--color-text-subtle);
+  margin: 0 0 var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+}
+.CommentHeader::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -1px;
+  width: 48px; height: 2px;
+  background: var(--accent);
+}
+
+.UserComments {
+  display: flex; flex-direction: column;
+  gap: var(--space-2);
+}
+
+.Comment {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: var(--space-3);
+  align-items: start;
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  transition: background var(--transition-fast);
+}
+.Comment:nth-child(odd of .Comment) { background: var(--surface-2); }
+.Comment:nth-child(even of .Comment) { background: transparent; }
+.Comment:hover { background: var(--surface-3); }
+
+.CommentProfileImage {
+  width: 36px; height: 36px;
+  border-radius: var(--radius-pill);
+  object-fit: cover;
+  background: var(--surface-2);
+  border: 1px solid var(--color-border);
+}
+
+.CommentTextContainer {
+  position: relative;
+  min-width: 0;
+  padding: 12px 16px 14px;
+  background: var(--surface-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  display: flex; flex-direction: column; gap: 4px;
+}
+
+/* Bubble tail pointing left toward avatar */
+.CommentTextContainer::before {
+  content: "";
+  position: absolute;
+  left: -7px; top: 14px;
+  width: 12px; height: 12px;
+  background: var(--surface-1);
+  border-left: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  transform: rotate(45deg);
+}
+
+.UserNameText {
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--color-text-strong);
+  margin: 0;
+  letter-spacing: 0.005em;
+}
+
+.CommentText {
+  font-size: 14px;
+  color: var(--color-text);
+  line-height: 1.6;
+  word-break: break-word;
+  margin: 2px 0 0;
+}
+
+.CommentDate {
+  font-size: 11px;
+  color: var(--color-text-subtle);
+  font-variant-numeric: tabular-nums;
+  margin-top: 4px;
+}
+
+.CommentButtonsContainer {
+  grid-column: 2 / -1;
+  display: flex; align-items: center; gap: var(--space-1);
+  padding-top: 4px;
+}
+.CommentLikeButtons { display: flex; align-items: center; gap: var(--space-1); }
+
+.CommentLikeContainer,
+.CommentDislikeContainer {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  color: var(--color-text-subtle);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+.CommentLikeContainer:hover {
+  background: var(--accent-soft);
+  color: var(--accent-hover);
+}
+.CommentDislikeContainer:hover {
+  background: var(--surface-3);
+  color: var(--color-text);
+}
+
+.CommentLikeContainer p, .CommentDislikeContainer p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.CommentLikeContainer .container,
+.CommentDislikeContainer .container {
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  width: 18px; height: 18px;
+}
+
+.CommentLikeSVG { width: 12px; height: 12px; }
+.CommentLikeSVG.LikeSVGClicked { color: var(--accent); }
+.CommentLikeSVG.DislikeSVGClicked { color: var(--color-text); }
+
+/* Composer — editorial style */
+.CommentsContainer .Message {
+  display: flex; align-items: center;
+  gap: var(--space-2);
+  padding: 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-fast),
+              box-shadow var(--transition-fast);
+}
+.CommentsContainer .Message:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.SendSVGContainer {
+  width: 34px; height: 34px;
+}
+.SendSVGContainer .SendSVG { width: 16px; height: 16px; }
+
+@media (max-width: 700px) {
+  .PostSenderContainer,
+  .PostContentContainer > p:first-child,
+  .PostContentContainer > p:nth-of-type(2),
+  .PostBtns { padding-left: var(--space-5); padding-right: var(--space-5); }
+  .PostBtns::before { left: var(--space-5); }
+  .CommentsContainer { padding: var(--space-5); }
+  .Comment { grid-template-columns: 32px 1fr; }
+  .CommentButtonsContainer { grid-column: 2 / 3; }
+}
