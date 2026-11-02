@@ -1,0 +1,10 @@
+# Local SQLite databases (created automatically on first run)
+*.db
+*.db-shm
+*.db-wal
+
+# User uploads (keep only the default avatar)
+**/Posts/*
+!**/Posts/ProfileImage.png
+**/ProfileImages/*
+!**/ProfileImages/ProfileImage.png
