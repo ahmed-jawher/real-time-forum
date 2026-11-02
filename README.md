@@ -7,6 +7,8 @@ A single-page forum with **real-time private messaging**, built with a Go backen
 ![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)
 ![WebSocket](https://img.shields.io/badge/WebSocket-realtime-010101)
 
+![Private chat](docs/screenshots/chat.png)
+
 ## Features
 
 ### Accounts and sessions
@@ -32,6 +34,18 @@ A single-page forum with **real-time private messaging**, built with a Go backen
 ### Single-page application
 - One HTML page; JavaScript handles routing and views
 - Custom error pages and messages
+
+## Screenshots
+
+| Login | Feed |
+|---|---|
+| ![Login](docs/screenshots/login.png) | ![Feed](docs/screenshots/feed.png) |
+
+| Post with comments | Private messages |
+|---|---|
+| ![Post](docs/screenshots/post.png) | ![Chat](docs/screenshots/chat.png) |
+
+<sub>Screenshots use demo accounts and content.</sub>
 
 ## Tech Stack
 
@@ -80,6 +94,8 @@ real-time-forum/
 ## Extension: Typing in Progress
 
 [`real-time-forum-typing-in-progress/`](real-time-forum-typing-in-progress) builds on this project and adds a **live "is typing…" indicator** to private chats.
+
+![Typing indicator](docs/screenshots/typing.png)
 
 ## Testing
 

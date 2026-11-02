@@ -2,6 +2,8 @@
 
 An extension of [Real-Time Forum](../README.md) that adds a live **"is typing…"** indicator to private messages, like the one in modern chat apps.
 
+![Typing indicator](../docs/screenshots/typing.png)
+
 ## How It Works
 
 - The client opens a separate WebSocket to a dedicated **`/typing-ws`** endpoint, so typing events never block chat messages
