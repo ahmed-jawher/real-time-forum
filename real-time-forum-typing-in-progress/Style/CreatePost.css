@@ -1,0 +1,162 @@
+/* =========================================================
+   CreatePost.css — Composer
+   ========================================================= */
+
+.Post {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* Title */
+.Post .Title {
+  padding: 12px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-strong);
+  letter-spacing: -0.014em;
+  outline: none;
+  transition: border-color var(--transition-fast),
+              box-shadow var(--transition-fast);
+}
+.Post .Title::placeholder {
+  color: var(--color-text-subtle);
+  font-weight: var(--fw-regular);
+}
+.Post .Title:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* Content + image */
+.ContentImageContainer {
+  display: flex; flex-direction: column; gap: var(--space-3);
+}
+
+.Post .TextArea {
+  min-height: 200px;
+  padding: 12px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--color-text);
+  resize: vertical;
+  outline: none;
+  font-family: inherit;
+  transition: border-color var(--transition-fast),
+              box-shadow var(--transition-fast);
+}
+.Post .TextArea::placeholder { color: var(--color-text-subtle); }
+.Post .TextArea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* Drop-zone */
+.custum-file-upload {
+  display: flex; align-items: center; justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  background: var(--surface-2);
+  border: 1.5px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: border-color var(--transition-fast),
+              background var(--transition-fast),
+              color var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+}
+.custum-file-upload:hover {
+  border-color: var(--accent);
+  background: var(--surface-3);
+  color: var(--color-text);
+}
+.custum-file-upload .icon { display: inline-flex; }
+.custum-file-upload .icon svg { width: 24px; height: 24px; }
+.custum-file-upload .icon svg path { fill: currentColor !important; }
+
+.custum-file-upload input[type="file"] {
+  position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none;
+}
+
+.custum-file-upload::before {
+  content: "Drop an image or click to upload";
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+}
+
+.custum-file-upload .Clear {
+  position: absolute;
+  top: 8px; right: 8px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: var(--fw-medium);
+  color: var(--color-text-muted);
+  background: var(--surface-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+  z-index: 2;
+}
+.custum-file-upload .Clear:hover {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+  border-color: rgba(244,63,94,0.3);
+}
+
+.selected-image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  border-radius: inherit;
+  z-index: 1;
+}
+
+/* Categories */
+.Post .Category {
+  display: flex; flex-direction: column; gap: var(--space-2);
+}
+
+.CategoriesText {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.Post .customCheckBoxHolder {
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+
+/* Submit */
+.Download-button {
+  align-self: flex-start;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius-md);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  transition: background var(--transition-fast);
+}
+.Download-button:hover { background: var(--accent-hover); }
+.Download-button:active { background: var(--accent-active); }
+.Download-button svg { width: 14px; height: 14px; }
+.Download-button svg path { fill: #fff !important; }
+
+@media (max-width: 600px) {
+  .Post .Title { font-size: var(--fs-lg); }
+  .Post .TextArea { min-height: 160px; }
+  .Download-button { align-self: stretch; justify-content: center; }
+}

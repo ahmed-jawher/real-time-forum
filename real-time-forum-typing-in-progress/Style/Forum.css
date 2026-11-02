@@ -1,0 +1,351 @@
+/* =========================================================
+   Forum.css — Design tokens, reset, base
+   Theme: refined dark mode (GitHub/Linear/Vercel-inspired)
+   ========================================================= */
+
+:root {
+  /* ---------- Surfaces ---------- */
+  --surface-0: #08090c;
+  --surface-1: #111318;
+  --surface-2: #181b22;
+  --surface-3: #222630;
+
+  --color-border:        #1f1f23;   /* default hairline */
+  --color-border-strong: #2a2a30;
+  --color-border-focus:  #3a3a42;
+
+  /* ---------- Text ---------- */
+  --color-text:          #ededed;
+  --color-text-strong:   #ffffff;
+  --color-text-muted:    #a1a1aa;
+  --color-text-subtle:   #6b6b75;
+
+  /* ---------- Accent (single, restrained) ---------- */
+  --accent:        #3b82f6;   /* clean blue */
+  --accent-hover:  #60a5fa;
+  --accent-active: #2563eb;
+  --accent-soft:   rgba(59, 130, 246, 0.12);
+  --accent-ring:   rgba(59, 130, 246, 0.35);
+
+  /* ---------- Semantic ---------- */
+  --color-danger:        #f43f5e;
+  --color-danger-soft:   rgba(244, 63, 94, 0.12);
+  --color-success:       #22c55e;
+  --color-warning:       #f59e0b;
+  --color-neutral:       #71717a;
+  --color-neutral-soft:  rgba(113, 113, 122, 0.14);
+
+  /* ---------- Radius ---------- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-pill: 9999px;
+
+  /* ---------- Spacing ---------- */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+  --space-5: 20px; --space-6: 24px; --space-7: 28px; --space-8: 32px;
+  --space-10:40px; --space-12:48px; --space-16:64px;
+
+  /* ---------- Shadows (subtle, true dark) ---------- */
+  --shadow-sm:  0 1px 0 rgba(0,0,0,0.4);
+  --shadow-md:  0 1px 2px rgba(0,0,0,0.5), 0 4px 8px -2px rgba(0,0,0,0.3);
+  --shadow-lg:  0 12px 32px -8px rgba(0,0,0,0.7), 0 4px 12px -4px rgba(0,0,0,0.4);
+  --shadow-primary: 0 1px 0 rgba(0,0,0,0.4), 0 0 0 1px rgba(59,130,246,0.4), 0 4px 12px -2px rgba(59,130,246,0.25);
+  --shadow-inset:   inset 0 1px 0 rgba(255,255,255,0.04);
+
+  /* ---------- Typography ---------- */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Roboto, "Helvetica Neue", Arial, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --fs-xs: 12px;  --fs-sm: 13px; --fs-base: 14px; --fs-lg: 16px;
+  --fs-xl: 18px;  --fs-2xl: 22px; --fs-3xl: 30px; --fs-4xl: 40px;
+
+  --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600; --fw-bold: 700;
+  --lh-tight: 1.22;  --lh-normal: 1.55;
+
+  /* ---------- Motion ---------- */
+  --transition-fast: 120ms cubic-bezier(.4,0,.2,1);
+  --transition-base: 180ms cubic-bezier(.4,0,.2,1);
+
+  /* ---------- Layout ---------- */
+  --layout-max: 1200px;
+  --sidebar-w: 300px;
+  --nav-h: 60px;
+}
+
+/* =========================================================
+   THEMES — pick from the floating theme picker (top-right)
+   Token sets only; layout/sizes never change.
+   ========================================================= */
+
+/* ---------- 1. Daylight (clean light) ---------- */
+:root[data-theme="light"] {
+  --surface-0: #f7f8fa;
+  --surface-1: #ffffff;
+  --surface-2: #f0f2f5;
+  --surface-3: #e7eaf0;
+
+  --color-border:        #e6e6e9;
+  --color-border-strong: #d4d4d8;
+  --color-border-focus:  #b8b8bf;
+
+  --color-text:          #18181b;
+  --color-text-strong:   #000000;
+  --color-text-muted:    #52525b;
+  --color-text-subtle:   #8b8b95;
+
+  --accent:        #2563eb;
+  --accent-hover:  #1d4ed8;
+  --accent-active: #1e40af;
+  --accent-soft:   rgba(37, 99, 235, 0.10);
+  --accent-ring:   rgba(37, 99, 235, 0.30);
+
+  --color-danger-soft:    rgba(244, 63, 94, 0.10);
+  --color-neutral-soft:   rgba(113, 113, 122, 0.10);
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px -2px rgba(0,0,0,0.06);
+  --shadow-lg: 0 12px 32px -8px rgba(0,0,0,0.10), 0 4px 12px -4px rgba(0,0,0,0.05);
+  --shadow-primary: 0 0 0 1px rgba(37,99,235,0.35), 0 4px 12px -2px rgba(37,99,235,0.20);
+  --shadow-inset:   inset 0 1px 0 rgba(255,255,255,0.6);
+}
+
+:root[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: #d4d4d8;
+  border-color: var(--surface-0);
+}
+:root[data-theme="light"] ::-webkit-scrollbar-thumb:hover { background: #b8b8bf; }
+
+:root[data-theme="light"] ::selection { background: rgba(37, 99, 235, 0.20); color: inherit; }
+
+/* Light-theme fix: img.inputIcon was filtered to white in dark mode */
+:root[data-theme="light"] img.inputIcon { filter: none; opacity: 0.55; }
+
+/* Light-theme: chevron in <select> */
+:root[data-theme="light"] select.inputField {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16'><path fill='%2352525b' d='M4.427 6.427a.6.6 0 0 1 .848 0L8 9.152l2.725-2.725a.6.6 0 1 1 .848.848l-3.15 3.15a.6.6 0 0 1-.848 0l-3.148-3.15a.6.6 0 0 1 0-.848z'/></svg>");
+}
+
+/* Light-theme: nav glass uses a light tint */
+:root[data-theme="light"] .nav { background: rgba(255, 255, 255, 0.78); }
+
+/* Light-theme: error pill text needs darker red */
+:root[data-theme="light"] .main_form #Error {
+  color: #991b1b !important;
+  border-color: rgba(244, 63, 94, 0.25);
+}
+
+/* Light-theme: back button — invert (dark pill on light bg) */
+:root[data-theme="light"] .back-button { background: #18181b; color: #fff; }
+:root[data-theme="light"] .back-button:hover { background: #000; }
+
+/* ---------- Theme toggle (floating) ---------- */
+.theme-toggle {
+  position: fixed;
+  top: 14px;
+  right: 16px;
+  z-index: 100;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  background: var(--surface-1);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: background var(--transition-fast),
+              color var(--transition-fast),
+              border-color var(--transition-fast);
+}
+.theme-toggle:hover {
+  background: var(--surface-3);
+  color: var(--color-text);
+  border-color: var(--color-border-strong);
+}
+.theme-toggle svg { width: 16px; height: 16px; }
+.theme-toggle .icon-sun  { display: none; }
+.theme-toggle .icon-moon { display: block; }
+:root[data-theme="light"] .theme-toggle .icon-sun  { display: block; }
+:root[data-theme="light"] .theme-toggle .icon-moon { display: none; }
+
+/* When app shell is mounted, place toggle inside nav row instead of overlapping */
+body:has(.nav) .theme-toggle {
+  top: 12px;
+  right: 20px;
+  width: 36px; height: 36px;
+}
+
+/* ---------- Reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-normal);
+  color: var(--color-text);
+  background: var(--surface-0);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ---------- Typography ---------- */
+h1, h2, h3, h4, h5, h6, p { margin: 0; }
+h1 { font-size: var(--fs-3xl); font-weight: var(--fw-bold);     line-height: var(--lh-tight); letter-spacing: -0.022em; }
+h2 { font-size: var(--fs-2xl); font-weight: var(--fw-semibold); line-height: var(--lh-tight); letter-spacing: -0.018em; }
+h3 { font-size: var(--fs-xl);  font-weight: var(--fw-semibold); line-height: var(--lh-tight); letter-spacing: -0.014em; }
+
+button {
+  font-family: inherit; font-size: inherit; color: inherit;
+  background: none; border: none; cursor: pointer; padding: 0;
+}
+input, textarea, select { font-family: inherit; font-size: inherit; color: inherit; }
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+img { max-width: 100%; display: block; }
+
+/* ---------- Scrollbar (slim, subtle) ---------- */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: #2a2a30;
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--surface-0);
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover { background: #3a3a42; background-clip: padding-box; }
+
+/* ---------- Focus ---------- */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+::selection { background: rgba(59, 130, 246, 0.35); color: #fff; }
+
+/* ---------- Root container ---------- */
+.content {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================================================
+   Shared chip pattern — category filter & post composer
+   ========================================================= */
+.customCheckBoxInput {
+  position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0;
+}
+
+.customCheckBoxWrapper {
+  display: inline-flex; cursor: pointer; user-select: none;
+}
+
+.customCheckBox {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-2);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  transition: background var(--transition-fast),
+              color var(--transition-fast),
+              border-color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.customCheckBoxWrapper:hover .customCheckBox {
+  background: var(--surface-3);
+  border-color: var(--color-border-strong);
+  color: var(--color-text);
+}
+
+.customCheckBoxInput:checked + .customCheckBoxWrapper .customCheckBox {
+  background: var(--accent-soft);
+  color: var(--accent-hover);
+  border-color: var(--accent);
+}
+
+.customCheckBoxInput:focus-visible + .customCheckBoxWrapper .customCheckBox {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.customCheckBox .inner { line-height: 1; }
+
+/* =========================================================
+   Shared composer controls — comments and direct messages
+   ========================================================= */
+.Message {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.Message .MsgInput {
+  flex: 1;
+  min-width: 0;
+  height: 38px;
+  padding: 0 var(--space-4);
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-text);
+  font-size: var(--fs-sm);
+}
+
+.Message .MsgInput::placeholder {
+  color: var(--color-text-subtle);
+}
+
+.SendSVGContainer,
+.SendChatMessage {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  background: var(--accent);
+  color: #fff;
+  transition: background var(--transition-fast);
+}
+
+.SendSVGContainer:hover,
+.SendChatMessage:hover {
+  background: var(--accent-hover);
+}
+
+.SendSVGContainer:active,
+.SendChatMessage:active {
+  background: var(--accent-active);
+}
+
+.Message .SendSVG {
+  width: 18px;
+  height: 18px;
+}
+
+.Message .SendSVG g,
+.Message .SendSVG path {
+  fill: #fff !important;
+}
